@@ -6,7 +6,7 @@
 /*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/04 11:45:30 by bngo              #+#    #+#             */
-/*   Updated: 2016/11/04 18:11:04 by bngo             ###   ########.fr       */
+/*   Updated: 2016/11/05 15:58:55 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,17 @@ typedef struct		s_fract
 	void			*win;
 	void			*img;
 	char			*p_img;
+	int				size;
+	int				zoom;
 }					t_fract;
 
 enum				e_value
 {
+	COL1 = 0x00148FCC,
+	COL2 = 0x003D7B99,
+	COL3 = 0x0000FFC9,
+	COL4 = 0x00FF5640,
+	COL5 = 0x00CC1428,
 	LEFT = 123,
 	RIGHT = 124,
 	UP = 126,
@@ -48,7 +55,7 @@ void				ft_error(int err);
 void				ft_set_fract(int type);
 
 void				ft_draw_julia(t_fract *e);
-void				ft_draw_mandelbrot(t_fract *e);
+void				ft_draw_mandelbrot(t_fract *e, int max);
 void				ft_draw_unknow(t_fract *e);
 
 #endif

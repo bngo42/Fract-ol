@@ -6,7 +6,7 @@
 /*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/04 13:05:38 by bngo              #+#    #+#             */
-/*   Updated: 2016/11/04 14:17:07 by bngo             ###   ########.fr       */
+/*   Updated: 2016/11/05 12:26:20 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,25 @@
 int			key_event(int keycode, t_fract *ptr)
 {
 	if (keycode == LEFT)
-		ft_putendl("CACA");
+	{
+		ptr->zoom -= 10;
+		ft_draw_mandelbrot(ptr, ptr->size);
+	}
 	else if (keycode == RIGHT)
-		ft_putendl("CACA");
-	else if (keycode == DOWN)
-		ft_putendl("CACA");
+	{
+		ptr->zoom += 10;
+		ft_draw_mandelbrot(ptr, ptr->size);
+	}
+	else if (keycode == DOWN && ptr->size > 0)
+	{
+		ptr->size--;
+		ft_draw_mandelbrot(ptr, ptr->size);
+	}
 	else if (keycode == UP)
-		ft_putendl("CACA");
+	{
+		ptr->size++;
+		ft_draw_mandelbrot(ptr, ptr->size);
+	}
 	else if (keycode == ESC)
 	{
 		free(ptr);

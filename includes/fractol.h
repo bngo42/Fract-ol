@@ -6,7 +6,7 @@
 /*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/04 11:45:30 by bngo              #+#    #+#             */
-/*   Updated: 2016/11/07 17:46:20 by bngo             ###   ########.fr       */
+/*   Updated: 2016/11/07 19:35:58 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct		s_fract
 	int				zoom;
 	int				midX;
 	int				midY;
+	int				origin[2];
 	int				c_range;
 	int				guide;
 }					t_fract;

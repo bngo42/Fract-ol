@@ -6,30 +6,37 @@
 /*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/04 11:54:20 by bngo              #+#    #+#             */
-/*   Updated: 2016/11/05 15:58:56 by bngo             ###   ########.fr       */
+/*   Updated: 2016/11/07 17:20:10 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fractol.h"
 
-void		ft_set_fract(int type)
+t_fract		*ft_init_fract(int type)
 {
 	t_fract *info;
 
-	if(!(info = (t_fract*)malloc(sizeof(t_fract))))
+	if (!(info = (t_fract*)malloc(sizeof(t_fract))))
 		ft_error(-2);
 	info->mlx = mlx_init();
 	info->win = mlx_new_window(info->mlx, WIDTH, HEIGHT, "fract'ol");
 	info->img = mlx_new_image(info->mlx, WIDTH, HEIGHT);
+	info->type = type;
 	info->size = 10;
-	info->zoom = 0;
-	if (type == 1)
-		ft_draw_julia(info);
-	else if (type == 2)
-		ft_draw_mandelbrot(info, info->size);
-	else if (type == 3)
-		ft_draw_unknow(info);
+	info->zoom = 1;
+	info->midX = 0;
+	info->midY = 0;
+	return (info);
+}
+
+void		ft_set_fract(int type)
+{
+	t_fract *info;
+
+	info = ft_init_fract(type);
+	ft_draw_image(info);
 	mlx_hook(info->win, 2, 1L << 1, key_event, info);
+	mlx_mouse_hook(info->win, mouse_event, info);
 	mlx_loop(info->mlx);
 }
 

@@ -6,7 +6,7 @@
 /*   By: bngo <bngo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/08 19:58:18 by bngo              #+#    #+#             */
-/*   Updated: 2016/11/09 17:57:39 by bngo             ###   ########.fr       */
+/*   Updated: 2016/11/09 18:06:58 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,15 @@ int			mouse_hook(int button, int x, int y, t_env *e)
 {
 	if (button == RMOUSE)
 	{
-		//e->moveX += ((WIDTH / 2) - x);
-		//e->moveY += ((HEIGHT / 2) - y);
 		e->zoom *= 1.2;
-		//e->moveX = 1.1 * (e->x - WIDTH / 2) / (0.5 * e->zoom * WIDTH) - e->moveX;
-		//e->moveY = (e->y - HEIGHT / 2) / (0.5 * e->zoom * HEIGHT) - e->moveY;
+		e->moveX = 1.1 * (x - WIDTH / 2) / (0.5 * e->zoom * WIDTH) + e->moveX;
+		e->moveY = (y - HEIGHT / 2) / (0.5 * e->zoom * HEIGHT) + e->moveY;
 	}
 	if (button == LMOUSE && e->zoom > 1.2)
 	{
-		//e->moveX -= ((WIDTH / 2) - x);
-		//e->moveY -= ((HEIGHT / 2) - y);
 		e->zoom /= 1.2;
-		//e->moveX = 1.1 * (e->x - WIDTH / 2) / (0.5 * e->zoom * WIDTH) + e->moveX;
-		//e->moveY = (e->y - HEIGHT / 2) / (0.5 * e->zoom * HEIGHT) + e->moveY;
+		e->moveX = 1.1 * (x - WIDTH / 2) / (0.5 * e->zoom * WIDTH) + e->moveX;
+		e->moveY = (y - HEIGHT / 2) / (0.5 * e->zoom * HEIGHT) + e->moveY;
 	}
 	expose_hook(x, y, e);
 	return (0);

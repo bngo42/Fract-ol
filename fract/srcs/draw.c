@@ -6,7 +6,7 @@
 /*   By: bngo <bngo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/08 19:58:13 by bngo              #+#    #+#             */
-/*   Updated: 2016/11/10 17:51:35 by bngo             ###   ########.fr       */
+/*   Updated: 2016/11/10 21:16:29 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int			expose_hook(int x, int y, t_env *e)
 		mandel(e);
 	else if (e->type == 2)
 	{
-		exit(0);
+		mandelbar(e);
 	}
 	mlx_put_image_to_window(e->mlx, e->win, e->img, 0, 0);
 	mlx_destroy_image(e->mlx, e->img);

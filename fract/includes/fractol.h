@@ -6,7 +6,7 @@
 /*   By: bngo <bngo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/08 19:58:09 by bngo              #+#    #+#             */
-/*   Updated: 2016/11/10 17:47:23 by bngo             ###   ########.fr       */
+/*   Updated: 2016/11/10 21:16:28 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,13 +99,16 @@ enum			e_value
 	PAGEDN = 121,
 	ESC = 53,
 	SPACE = 49,
-	HELP = 4
+	HELP = 4,
+	NEXT = 47,
+	PREV = 43
 };
 
 void			init_var3(t_env *e);
 
 void			draw_pixel(t_env *e, int x, int y, t_color color);
 void			mandel(t_env *e);
+void			mandelbar(t_env *e);
 int				expose_hook(int x, int y, t_env *e);
 void			init_var2(t_env *e);
 void			julia(t_env *e);

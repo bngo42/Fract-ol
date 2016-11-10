@@ -6,7 +6,7 @@
 /*   By: bngo <bngo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/08 19:58:18 by bngo              #+#    #+#             */
-/*   Updated: 2016/11/10 18:13:12 by bngo             ###   ########.fr       */
+/*   Updated: 2016/11/10 21:24:12 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,21 @@ void		key_hook2(int keycode, t_env *e)
 		else if (e->type == 2)
 			e->iter = 300;
 	}
+	else if (keycode == NEXT)
+	{
+		e->type++;
+		if (e->type == 3)
+			e->type = 0;
+	}
+	else if (keycode == PREV)
+	{
+		e->type--;
+		if (e->type == -1)
+			e->type = 2;
+	}
+
 }
+
 
 int			key_hook(int keycode, t_env *e)
 {
@@ -95,7 +109,11 @@ void		ft_init_env(t_env *e)
 		e->m = (t_mandel*)malloc(sizeof(t_mandel));
 	}
 	else if (e->type == 2)
-		ft_putendl("Allocating Thirs fractal");
+	{
+		e->iter = 60;
+		init_var3(e);
+		e->m = (t_mandel*)malloc(sizeof(t_mandel));
+	}
 }
 
 void		ft_error(int err)
@@ -104,12 +122,6 @@ void		ft_error(int err)
 		ft_putendl("Available fractal:\n- Julia\n- Mandelbrot\n- Unknow");
 	else if (err == -2)
 		ft_putendl("Too many arguments.");
-	else if (err == -3)
-		ft_putendl("Err3");
-	else if (err == -4)
-		ft_putendl("Err4");
-	else if (err == -5)
-		ft_putendl("Err5");
 	exit(0);
 }
 
@@ -144,7 +156,7 @@ int			main(int argc, char **argv)
 		e->type = 0;
 	else if (ft_strcmp(argv[1], "Mandelbrot") == 0)
 		e->type = 1;
-	else if (ft_strcmp(argv[1], "Unknow") == 0)
+	else if (ft_strcmp(argv[1], "Mandelbar") == 0)
 		e->type = 2;
 	else
 		ft_error(-1);

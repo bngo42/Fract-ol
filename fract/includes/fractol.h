@@ -6,7 +6,7 @@
 /*   By: bngo <bngo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/08 19:58:09 by bngo              #+#    #+#             */
-/*   Updated: 2016/11/09 17:17:37 by bngo             ###   ########.fr       */
+/*   Updated: 2016/11/10 12:28:39 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,6 @@ typedef struct	s_mandel
 	double		newIm;
 	double		oldRe;
 	double		oldIm;
-	double		zoom;
-	double		moveX;
-	double		moveY;
 	int			maxiter;
 }				t_mandel;
 
@@ -51,10 +48,6 @@ typedef struct	s_jul
 	double		newim;
 	double		oldre;
 	double		oldim;
-	double		zoom;
-	double		movex;
-	double		movey;
-	int			maxiter;
 	int			h;
 	int			w;
 	int			y;
@@ -74,10 +67,11 @@ typedef struct	s_env
 	double		zoom;
 	double		pr;
 	double		pi;
-	int			x;
-	int			y;
 	double		moveX;
 	double		moveY;
+	int			x;
+	int			y;
+	int			iter;
 }				t_env;
 
 enum			e_value

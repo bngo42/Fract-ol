@@ -6,7 +6,7 @@
 /*   By: bngo <bngo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/08 19:58:13 by bngo              #+#    #+#             */
-/*   Updated: 2016/11/09 17:54:05 by bngo             ###   ########.fr       */
+/*   Updated: 2016/11/10 12:23:45 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,13 @@ int			expose_hook(int x, int y, t_env *e)
 	if (x > 1 && x < 1300)
 		e->pi = (double)y / 1300;
 	if (e->type == 0)
-	 julia(e);
+		julia(e);
 	else if (e->type == 1)
 		mandel(e);
 	else if (e->type == 2)
+	{
 		exit(0);
+	}
 	mlx_put_image_to_window(e->mlx, e->win, e->img, 0, 0);
 	mlx_destroy_image(e->mlx, e->img);
 	return (0);

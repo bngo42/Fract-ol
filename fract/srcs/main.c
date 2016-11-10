@@ -6,7 +6,7 @@
 /*   By: bngo <bngo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/08 19:58:18 by bngo              #+#    #+#             */
-/*   Updated: 2016/11/09 18:06:58 by bngo             ###   ########.fr       */
+/*   Updated: 2016/11/10 12:34:00 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,23 +25,34 @@ int			key_hook(int keycode, t_env *e)
 		mlx_destroy_window(e->mlx, e->win);
 		exit(0);
 	}
+	else if (keycode == PAGEUP)
+		e->iter++;
+	else if (keycode == PAGEDN && e->iter > 5)
+		e->iter--;
 	else if (keycode == LEFT)
-		e->moveX += (1.2);
+		e->moveX += (0.1);
 	else if (keycode == RIGHT)
-		e->moveX -= (1.2);
+		e->moveX -= (0.1);
+	else if (keycode == SPACE)
+	{
+		e->zoom = 1;
+		e->moveX = -0.5;
+		e->moveY = 0;
+		e->iter = 18;
+	}
 	expose_hook(0, 0, e);
 	return (0);
 }
 
 int			mouse_hook(int button, int x, int y, t_env *e)
 {
-	if (button == RMOUSE)
+	if (button == LMOUSE)
 	{
 		e->zoom *= 1.2;
 		e->moveX = 1.1 * (x - WIDTH / 2) / (0.5 * e->zoom * WIDTH) + e->moveX;
 		e->moveY = (y - HEIGHT / 2) / (0.5 * e->zoom * HEIGHT) + e->moveY;
 	}
-	if (button == LMOUSE && e->zoom > 1.2)
+	if (button == RMOUSE && e->zoom > 1.2)
 	{
 		e->zoom /= 1.2;
 		e->moveX = 1.1 * (x - WIDTH / 2) / (0.5 * e->zoom * WIDTH) + e->moveX;
@@ -56,8 +67,14 @@ void		ft_init_env(t_env *e)
 	e->zoom = 1;
 	e->moveX = -0.5;
 	e->moveY = 0;
+	e->iter = 18;
+	if (e->type == 0)
+		e->j = (t_jul*)malloc(sizeof(t_jul));
+	else if (e->type == 1)
+		e->m = (t_mandel*)malloc(sizeof(t_mandel));
+	else if (e->type == 2)
+		ft_putendl("Allocating Thirs fractal");
 }
-
 void		ft_error(int err)
 {
 	if (err == -1)

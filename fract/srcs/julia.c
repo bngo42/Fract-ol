@@ -6,7 +6,7 @@
 /*   By: bngo <bngo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/08 20:39:10 by bngo              #+#    #+#             */
-/*   Updated: 2016/11/09 17:52:41 by bngo             ###   ########.fr       */
+/*   Updated: 2016/11/10 12:17:09 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,6 @@ void 	juliaa(t_env *e)
 void	init_var3(t_env *e)
 {
 	e->j = (t_jul*)malloc(sizeof(t_jul));
-	e->j->zoom = 1;
-	e->j->movex = 0;
-	e->j->movey = 0;
 	e->j->cre = -0.7;
 	e->j->cim = 0.27015;
 }
@@ -84,8 +81,8 @@ void	julia(t_env *e)
 		j->x = 0;
 		while (j->x < WIDTH)
 		{
-			j->newre = 1.5 * (j->x - WIDTH / 2) / (0.5 * j->zoom * WIDTH) + e->moveX;
-			j->newim = (j->y - HEIGHT / 2) / (0.5 * j->zoom * HEIGHT) + e->moveY;
+			j->newre = 1.5 * (j->x - WIDTH / 2) / (0.5 * e->zoom * WIDTH) + e->moveX;
+			j->newim = (j->y - HEIGHT / 2) / (0.5 * e->zoom * HEIGHT) + e->moveY;
 			i = 0;
 			while (i++ < maxIterations)
 			{

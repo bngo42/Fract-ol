@@ -6,7 +6,7 @@
 /*   By: bngo <bngo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/08 20:39:10 by bngo              #+#    #+#             */
-/*   Updated: 2016/11/10 12:17:09 by bngo             ###   ########.fr       */
+/*   Updated: 2016/11/10 16:11:17 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,9 @@ void	julia(t_env *e)
 {
 	t_jul	*j;
 	t_color	color;
-	int		maxIterations;
 	int		i;
 
-	maxIterations = 300;
-	init_var3(e);
+	//init_var3(e);
 	j = e->j;
 	j->y = 0;
 	while (j->y < HEIGHT)
@@ -81,59 +79,21 @@ void	julia(t_env *e)
 		j->x = 0;
 		while (j->x < WIDTH)
 		{
-			j->newre = 1.5 * (j->x - WIDTH / 2) / (0.5 * e->zoom * WIDTH) + e->moveX;
-			j->newim = (j->y - HEIGHT / 2) / (0.5 * e->zoom * HEIGHT) + e->moveY;
+			j->nre = 1.5 * (j->x - WIDTH / 2) / (0.5 * e->zoom * WIDTH) + e->moveX;
+			j->nim = (j->y - HEIGHT / 2) / (0.5 * e->zoom * HEIGHT) + e->moveY;
 			i = 0;
-			while (i++ < maxIterations)
+			while (i < e->iter && ((j->nre * j->nre + j->nim * j->nim) < 4))
 			{
-				j->oldre = j->newre;
-				j->oldim = j->newim;
-				j->newre = j->oldre * j->oldre - j->oldim * j->oldim + j->cre;
-				j->newim = 2 * j->oldre * j->oldim + j->cim;
-				if((j->newre * j->newre + j->newim * j->newim) > 4) break;
+				j->oldre = j->nre;
+				j->oldim = j->nim;
+				j->nre = j->oldre * j->oldre - j->oldim * j->oldim + j->cre;
+				j->nim = 2 * j->oldre * j->oldim + j->cim;
+				i++;
 			}
-			color = (t_color){i % 255 , 100 * i, 100 * (i < maxIterations)};
+			color = (t_color){i % 255 *i , 1 *i, 255 * (i < e->iter)};
 			draw_pixel(e, j->x, j->y, color);
 			j->x++;
 		}
 		j->y++;
 	}
 }
-
-/*
-void	julia(t_env *e)
-{
-	double cRe, cIm;
-	double newRe, newIm, oldRe, oldIm;
-	double zoom = 1, moveX = 0, moveY = 0;
-	t_color color; //the RGB color value for the pixel
-	int maxIterations = 300; //after how much iterations the function should stop
-
-	e->j = (t_jul*)malloc(sizeof(t_jul));
-
-	e->j->y = 0;
-	cRe = -0.7;
-	cIm = 0.27015;
-	while (e->j->y < HEIGHT)
-	{
-		e->j->x = 0;
-		while (e->j->x < WIDTH)
-		{
-			newRe = 1.5 * (e->j->x - WIDTH / 2) / (0.5 * zoom * WIDTH) + moveX;
-			newIm = (e->j->y - HEIGHT / 2) / (0.5 * zoom * HEIGHT) + moveY;
-			int i;
-			for(i = 0; i < maxIterations; i++)
-			{
-				oldRe = newRe;
-				oldIm = newIm;
-				newRe = oldRe * oldRe - oldIm * oldIm + cRe;
-				newIm = 2 * oldRe * oldIm + cIm;
-				if((newRe * newRe + newIm * newIm) > 4) break;
-			}
-			color = (t_color){i % 256, 255, 255 * (i < maxIterations)};
-			draw_pixel(e, e->j->x, e->j->y, color);
-			e->j->x++;
-		}
-		e->j->y++;
-	}
-}*/

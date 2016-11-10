@@ -6,7 +6,7 @@
 /*   By: bngo <bngo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/08 19:58:09 by bngo              #+#    #+#             */
-/*   Updated: 2016/11/10 12:28:39 by bngo             ###   ########.fr       */
+/*   Updated: 2016/11/10 17:25:30 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ typedef struct	s_jul
 {
 	double		cre;
 	double		cim;
-	double		newre;
-	double		newim;
+	double		nre;
+	double		nim;
 	double		oldre;
 	double		oldim;
 	int			h;
@@ -69,13 +69,22 @@ typedef struct	s_env
 	double		pi;
 	double		moveX;
 	double		moveY;
+	int			mousex;
+	int			mousey;
 	int			x;
 	int			y;
 	int			iter;
+	int			freeze;
 }				t_env;
 
 enum			e_value
 {
+	DEFAULT = 0x00FFFFFF,
+	COL1 = 0x00148FCC,
+	COL2 = 0x003D7B99,
+	COL3 = 0x0000FFC9,
+	COL4 = 0x00FF5640,
+	COL5 = 0x00CC1428,
 	SL = 0x00FF0000,
 	DF = 0x00FFFFFF,
 	LMOUSE = 1,
@@ -92,6 +101,8 @@ enum			e_value
 	SPACE = 49,
 	HELP = 4
 };
+
+void			init_var3(t_env *e);
 
 void			draw_pixel(t_env *e, int x, int y, t_color color);
 void			mandel(t_env *e);

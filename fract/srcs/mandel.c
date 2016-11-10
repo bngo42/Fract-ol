@@ -6,7 +6,7 @@
 /*   By: bngo <bngo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/08 20:04:32 by bngo              #+#    #+#             */
-/*   Updated: 2016/11/10 16:11:52 by bngo             ###   ########.fr       */
+/*   Updated: 2016/11/10 17:52:05 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,24 @@
 
 void		mandel(t_env *e)
 {
-    t_color		color;
+	t_color		color;
 	t_mandel	*m;
+	int			i;
 
 	m = e->m;
-    e->y = -1;
-    while (++e->y < HEIGHT)
+	e->y = -1;
+	while (++e->y < H)
 	{
-			e->x = -1;
-			while (++e->x < WIDTH)
+		e->x = -1;
+		while (++e->x < W)
 		{
-			e->pr = 1.5 * (e->x - WIDTH / 2) / (0.5 * e->zoom * WIDTH) + e->moveX;
-			e->pi = (e->y - HEIGHT / 2) / (0.5 * e->zoom * HEIGHT) + e->moveY;
-			m->newRe = m->newIm = m->oldRe = m->oldIm = 0;
-			int i = 0;
+			e->pr = 1.5 * (e->x - W / 2) / (0.5 * e->zoom * W) + e->mvx;
+			e->pi = (e->y - H / 2) / (0.5 * e->zoom * H) + e->mvy;
+			m->newRe = 0;
+			m->newIm = 0;
+			m->oldRe = 0;
+			m->oldIm = 0;
+			i = 0;
 			while (i++ < e->iter)
 			{
 				m->oldRe = m->newRe;
@@ -35,9 +39,9 @@ void		mandel(t_env *e)
 				m->newRe = m->oldRe * m->oldRe - m->oldIm * m->oldIm + e->pr;
 				m->newIm = 2 * m->oldRe * m->oldIm + e->pi;
 				if ((m->newRe * m->newRe + m->newIm * m->newIm) > 4)
-					break;
+					break ;
 			}
-			color = (t_color) {0, 200 * i , 255 * (i < e->iter)};
+			color = (t_color) {0, 200 * i, 255 * (i < e->iter)};
 			draw_pixel(e, e->x, e->y, color);
 		}
 	}

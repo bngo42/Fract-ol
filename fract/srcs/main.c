@@ -6,16 +6,28 @@
 /*   By: bngo <bngo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/08 19:58:18 by bngo              #+#    #+#             */
-/*   Updated: 2016/11/10 17:30:44 by bngo             ###   ########.fr       */
+/*   Updated: 2016/11/10 18:13:12 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-void		mlx_get_params(t_env *e)
+void		key_hook2(int keycode, t_env *e)
 {
-	e->mlx = mlx_init();
-	e->win = mlx_new_window(e->mlx, WIDTH, HEIGHT, "fractol");
+	if (keycode == HELP)
+		e->freeze = (e->freeze == 0) ? 1 : 0;
+	else if (keycode == SPACE)
+	{
+		e->zoom = 1;
+		e->mvx = -0.5;
+		e->mvy = 0;
+		if (e->type == 0)
+			e->iter = 150;
+		else if (e->type == 1)
+			e->iter = 18;
+		else if (e->type == 2)
+			e->iter = 300;
+	}
 }
 
 int			key_hook(int keycode, t_env *e)
@@ -30,44 +42,32 @@ int			key_hook(int keycode, t_env *e)
 	else if (keycode == PAGEDN && e->iter > 5)
 		e->iter /= 1.2;
 	else if (keycode == LEFT)
-		e->moveX += (0.1);
+		e->mvx += (0.01 / e->zoom);
 	else if (keycode == RIGHT)
-		e->moveX -= (0.1);
+		e->mvx -= (0.01 / e->zoom);
 	else if (keycode == UP)
-		e->moveY += (0.1);
+		e->mvy += (0.01 / e->zoom);
 	else if (keycode == DOWN)
-		e->moveY -= (0.1);
-	else if (keycode == HELP)
-		e->freeze = (e->freeze == 0) ? 1 : 0;
-	else if (keycode == SPACE)
-	{
-		e->zoom = 1;
-		e->moveX = -0.5;
-		e->moveY = 0;
-		if (e->type == 0)
-			e->iter = 300;
-		else if (e->type == 1)
-			e->iter = 18;
-		else if (e->type == 2)
-			e->iter = 300;
-	}
+		e->mvy -= (0.01 / e->zoom);
+	else
+		key_hook2(keycode, e);
 	expose_hook(0, 0, e);
 	return (0);
 }
 
 int			mouse_hook(int button, int x, int y, t_env *e)
 {
-	if (button == LMOUSE && x > 0 && x < WIDTH && y > 0 && y < HEIGHT)
+	if (button == LMOUSE && x > 0 && x < W && y > 0 && y < H)
 	{
 		e->zoom *= 1.2;
-		e->moveX = 1.1 * (x - WIDTH / 2) / (0.5 * e->zoom * WIDTH) + e->moveX;
-		e->moveY = (y - HEIGHT / 2) / (0.5 * e->zoom * HEIGHT) + e->moveY;
+		e->mvx = 1.1 * (x - W / 2) / (0.5 * e->zoom * W) + e->mvx;
+		e->mvy = (y - H / 2) / (0.5 * e->zoom * H) + e->mvy;
 	}
-	if (button == RMOUSE && x > 0 && x < WIDTH && y > 0 && y < HEIGHT && e->zoom > 1.2)
+	if (button == RMOUSE && x > 0 && x < W && y > 0 && y < H && e->zoom > 1.2)
 	{
 		e->zoom /= 1.2;
-		e->moveX = 1.1 * (x - WIDTH / 2) / (0.5 * e->zoom * WIDTH) + e->moveX;
-		e->moveY = (y - HEIGHT / 2) / (0.5 * e->zoom * HEIGHT) + e->moveY;
+		e->mvx = 1.1 * (x - W / 2) / (0.5 * e->zoom * W) + e->mvx;
+		e->mvy = (y - H / 2) / (0.5 * e->zoom * H) + e->mvy;
 	}
 	expose_hook(x, y, e);
 	return (0);
@@ -75,13 +75,15 @@ int			mouse_hook(int button, int x, int y, t_env *e)
 
 void		ft_init_env(t_env *e)
 {
+	e->mlx = mlx_init();
+	e->win = mlx_new_window(e->mlx, W, H, "fractol");
 	e->zoom = 1;
-	e->moveX = -0.5;
-	e->moveY = 0;
+	e->mvx = -0.5;
+	e->mvy = 0;
 	e->freeze = 0;
 	if (e->type == 0)
 	{
-		e->iter = 300;
+		e->iter = 150;
 		e->j = (t_jul*)malloc(sizeof(t_jul));
 		e->j->cre = -0.7;
 		e->j->cim = 0.27015;
@@ -95,6 +97,7 @@ void		ft_init_env(t_env *e)
 	else if (e->type == 2)
 		ft_putendl("Allocating Thirs fractal");
 }
+
 void		ft_error(int err)
 {
 	if (err == -1)
@@ -110,8 +113,6 @@ void		ft_error(int err)
 	exit(0);
 }
 
-#include <stdio.h>
-
 int			mouse_motion(int x, int y, t_env *e)
 {
 	int dirx;
@@ -121,13 +122,11 @@ int			mouse_motion(int x, int y, t_env *e)
 	diry = e->mousey - y;
 	e->mousex = x;
 	e->mousey = y;
-	//if (!e->freeze && x > 0 && x < WIDTH && y > 0 && y < HEIGHT)
-	if (!e->freeze)
+	if (!e->freeze && x > 0 && y > 0 && x < W && y < H)
 	{
-		e->j->cre += (dirx > 0) ? -(double)0.0200 : ((double)0.0200);
-		e->j->cim += (diry > 0) ? -(double)0.0200 : ((double)0.0200);
+		e->j->cre = (double)x / (double)W * 4 - 2;
+		e->j->cim = (double)y / (double)H * 4 - 2;
 		expose_hook(0, 0, e);
-		//printf("Mouse position: x: %i Y: %i\n", x, y);
 	}
 	return (0);
 }
@@ -144,15 +143,12 @@ int			main(int argc, char **argv)
 	if (ft_strcmp(argv[1], "Julia") == 0)
 		e->type = 0;
 	else if (ft_strcmp(argv[1], "Mandelbrot") == 0)
-	{
 		e->type = 1;
-	}
 	else if (ft_strcmp(argv[1], "Unknow") == 0)
 		e->type = 2;
 	else
 		ft_error(-1);
 	ft_init_env(e);
-	mlx_get_params(e);
 	expose_hook(0, 0, e);
 	mlx_key_hook(e->win, key_hook, e);
 	mlx_mouse_hook(e->win, mouse_hook, e);

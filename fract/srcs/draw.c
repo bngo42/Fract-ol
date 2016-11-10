@@ -6,7 +6,7 @@
 /*   By: bngo <bngo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/08 19:58:13 by bngo              #+#    #+#             */
-/*   Updated: 2016/11/10 14:44:57 by bngo             ###   ########.fr       */
+/*   Updated: 2016/11/10 17:51:35 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void		draw_pixel(t_env *e, int x, int y, t_color color)
 
 int			expose_hook(int x, int y, t_env *e)
 {
-	e->img = mlx_new_image(e->mlx, WIDTH, HEIGHT);
+	e->img = mlx_new_image(e->mlx, W, H);
 	if (x > 1 && x < 1300)
 		e->pr = (double)x / 1300;
 	if (x > 1 && x < 1300)

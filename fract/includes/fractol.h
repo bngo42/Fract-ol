@@ -6,15 +6,15 @@
 /*   By: bngo <bngo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/08 19:58:09 by bngo              #+#    #+#             */
-/*   Updated: 2016/11/10 17:25:30 by bngo             ###   ########.fr       */
+/*   Updated: 2016/11/10 17:47:23 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FRACTOL_H
 # define FRACTOL_H
 
-# define WIDTH 1200
-# define HEIGHT 1000
+# define W 1200
+# define H 1000
 
 # include "mlx.h"
 # include <unistd.h>
@@ -67,8 +67,8 @@ typedef struct	s_env
 	double		zoom;
 	double		pr;
 	double		pi;
-	double		moveX;
-	double		moveY;
+	double		mvx;
+	double		mvy;
 	int			mousex;
 	int			mousey;
 	int			x;
